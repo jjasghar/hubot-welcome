@@ -23,12 +23,14 @@ module.exports = (robot) ->
   robot.brain.on 'loaded', =>
     robot.brain.data.ambushes ||= {}
 
+  #robot.enter (res) ->  ### This could be extremely useful, to add this to the list of the users it knows about
+  #  res.reply 'welcome!'### Then after that if it doesnt match against it; it gives the welcome message?
+
   robot.respond /welcome (.*?): (.*)/i, (msg) ->
     users = robot.brain.usersForFuzzyName(msg.match[1].trim())
     user = users[0]
     appendAmbush(robot.brain.data.ambushes, user, msg.message.user, msg.match[2])
     msg.send "Ambush prepared"
-
 
   robot.hear /./i, (msg) ->
     return unless robot.brain.data.ambushes?
