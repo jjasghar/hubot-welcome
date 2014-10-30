@@ -1,5 +1,5 @@
 # hubot-welcome
-A hubot script to leave messages for people
+A hubot script to greet newbies to your channel
 
 See [`src/welcome.coffee`](src/welcome.coffee) for full documentation.
 
@@ -22,7 +22,7 @@ Then add **hubot-welcome** to your `external-scripts.json`:
 None :)
 
 ## Command
-Example: `hubot welcome <some welcome message`
+Example: `hubot welcome <some welcome message>` The default greeting is: `nice to meet you!`
 
 ## Sample Interaction
 
