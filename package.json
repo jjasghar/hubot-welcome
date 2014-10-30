@@ -1,0 +1,38 @@
+{
+  "name": "hubot-welcome",
+  "description": "A hubot script for welcoming new users",
+  "version": "0.0.1",
+  "author": "jjasghar",
+  "license": "MIT",
+
+  "keywords": [
+    "hubot",
+    "hubot-scripts"
+  ],
+
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jjasghar/hubot-welcome.git"
+  },
+
+  "bugs": {
+    "url": "https://github.com/jjasghar/hubot-welcome/issues"
+  },
+
+  "dependencies": {
+    "coffee-script": "*"
+  },
+
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "sinon-chai": "*",
+    "sinon": "*"
+  },
+
+  "main": "index.coffee",
+
+  "scripts": {
+    "test": "script/test"
+  }
+}
