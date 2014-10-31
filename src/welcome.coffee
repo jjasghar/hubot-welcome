@@ -14,27 +14,25 @@
 #   jjasghar
 #   awaxa
 
-appendAmbush = (data, toUser, fromUser, message) ->
+appendWelcome = (data, toUser, fromUser, message) ->
   data[toUser.name] or= []
 
   data[toUser.name].push [fromUser.name, message]
 
 module.exports = (robot) ->
   robot.brain.on 'loaded', =>
-    robot.brain.data.ambushes ||= {}
+    robot.brain.data.welcomes ||= {}
 
   #robot.enter (res) ->  ### This could be extremely useful, to add this to the list of the users it knows about
   #  res.reply 'welcome!'### Then after that if it doesnt match against it; it gives the welcome message?
 
-  robot.respond /welcome (.*?): (.*)/i, (msg) ->
+  robot.respond /welcome (.*?)/i, (msg) ->
     users = robot.brain.usersForFuzzyName(msg.match[1].trim())
     user = users[0]
-    appendAmbush(robot.brain.data.ambushes, user, msg.message.user, msg.match[2])
-    msg.send "Ambush prepared"
+    appendWelcome(robot.brain.data.welcome, user, msg.message.user)
+    msg.send "user added"
 
   robot.hear /./i, (msg) ->
-    return unless robot.brain.data.ambushes?
-    if (ambushes = robot.brain.data.ambushes[msg.message.user.name])
-      for ambush in ambushes
-        msg.send msg.message.user.name + ": while you were out, " + ambush[0] + " said: " + ambush[1]
-      delete robot.brain.data.ambushes[msg.message.user.name]
+    if (welcomes = robot.brain.data.welcome[msg.message.user.name])
+      for welcome in welcomes
+        msg.send msg.message.user.name
