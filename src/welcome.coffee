@@ -16,10 +16,17 @@
 module.exports = (robot) ->
   robot.brain.on 'loaded', =>
     robot.brain.data.welcome ||= {}
+    robot.brain.data.users ||= [ ]
 
   robot.enter (msg) ->
     welcome = robot.brain.get('data.welcome')
-    msg.send "Welcome, #{msg.message.user.name}, #{welcome}"
+    stored_users = robot.brain.get('data.users')
+    now_users = robot.brain.usersForFuzzyName(name)
+    if now_users ~= stored_users
+    else
+      msg.send "Welcome, #{msg.message.user.name}, #{welcome}"
+      robot.brain.set 'data.users', msg.message.user.name
+
 
   robot.respond /welcome (.*)$/i, (msg) ->
     welcome = msg.match[1]
