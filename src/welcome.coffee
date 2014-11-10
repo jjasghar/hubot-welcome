@@ -8,31 +8,20 @@
 #   None
 #
 # Commands:
-#   hubot welcome <new welcome message>
+#   hubot welcome <new welcome message> - Update the welcome message
 #
 # Author:
 #   jjasghar
-#   awaxa
-
-appendWelcome = (data, toUser, fromUser, message) ->
-  data[toUser.name] or= []
-
-  data[toUser.name].push [fromUser.name, message]
 
 module.exports = (robot) ->
   robot.brain.on 'loaded', =>
-    robot.brain.data.welcomes ||= {}
+    robot.brain.data.welcome ||= {}
 
-  #robot.enter (res) ->  ### This could be extremely useful, to add this to the list of the users it knows about
-  #  res.reply 'welcome!'### Then after that if it doesnt match against it; it gives the welcome message?
+  robot.enter (msg) ->
+    welcome = robot.brain.get('data.welcome')
+    msg.send "Welcome, #{msg.message.user.name}, #{welcome}"
 
-  robot.respond /welcome (.*?)/i, (msg) ->
-    users = robot.brain.usersForFuzzyName(msg.match[1].trim())
-    user = users[0]
-    appendWelcome(robot.brain.data.welcome, user, msg.message.user)
-    msg.send "user added"
-
-  robot.hear /./i, (msg) ->
-    if (welcomes = robot.brain.data.welcome[msg.message.user.name])
-      for welcome in welcomes
-        msg.send msg.message.user.name
+  robot.respond /welcome (.*)$/i, (msg) ->
+    welcome = msg.match[1]
+    robot.brain.set 'data.welcome', welcome.trim()
+    msg.send "Updated the welcome to: #{welcome}"
