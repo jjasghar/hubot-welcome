@@ -21,12 +21,11 @@ module.exports = (robot) ->
   robot.enter (msg) ->
     welcome = robot.brain.get('data.welcome')
     stored_users = robot.brain.get('data.users')
-    now_user = robot.brain.usersForFuzzyName(name)
-    for name in stored_users
-            if now_user = name
-            else
-              msg.send "Welcome, #{msg.message.user.name}, #{welcome}"
-              robot.brain.set 'data.users', msg.message.user.name
+    now_user = robot.brain.data.users.usersForFuzzyName("#{msg.message.user.name}")
+    if (now_user != null)
+    else
+      msg.send "Welcome, #{msg.message.user.name}, #{welcome}"
+      robot.brain.set 'data.users', msg.message.user.name
 
 
   robot.respond /welcome (.*)$/i, (msg) ->
