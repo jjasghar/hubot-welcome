@@ -19,13 +19,13 @@ module.exports = (robot) ->
     robot.brain.data.users ||= [ ]
 
   robot.enter (msg) ->
-    welcome = robot.brain.get('data.welcome')
-    stored_users = robot.brain.get('data.users')
-    users = robot.brain.usersForFuzzyName("#{msg.message.user.name}")
-    if ~stored_users.indexOf users
+    welcome = robot.brain.get('data.welcome') # pull out the welcome message
+    stored_users = robot.brain.get('data.users') # get a list of the known stored users
+    users = robot.brain.usersForFuzzyName("#{msg.message.user.name}") # get the user name of someone saying something
+    if users in stored_users # if the user above is in the stored_users do nothing
     else
-      msg.send "Welcome, #{msg.message.user.name}, #{welcome}"
-      robot.brain.set 'data.users', msg.message.user.name
+      msg.send "Welcome, #{msg.message.user.name}, #{welcome}" # if it's the first time you're seeing them give them the welcome message
+      robot.brain.set 'data.users', msg.message.user.name # add the user name to the stored_users
 
 
   robot.respond /welcome (.*)$/i, (msg) ->
